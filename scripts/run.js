@@ -4,13 +4,18 @@ const main = async () =>{
   const waveContract = await waveContractFactory.deploy()
   await waveContract.deployed()
 
-  console.log("Contract deployed to:", waveContract.address)
-  console.log("Contract deployed by:", owner.address)
+  console.log(waveContract.address, "Waved to you")
+  console.log("You are waving to:", owner.address)
 
   let waveCount;
-  wavecount = await waveContract.getTotalWaves()
+  waveCount = await waveContract.getTotalWaves()
 
   let waveTxn = await waveContract.wave()
+  await waveTxn.wait()
+
+  waveCount = await waveContract.getTotalWaves()
+
+  waveTxn = await waveContract.connect(randomPerson).wave()
   await waveTxn.wait()
 
   waveCount = await waveContract.getTotalWaves()
